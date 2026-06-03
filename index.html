@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Guide de Dépannage – Cabbri V2 + Axionis</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0202A;
+    --dark-red: #8B1219;
+    --black: #1A1A1A;
+    --gray-dark: #2E2E2E;
+    --gray-mid: #555;
+    --gray-light: #DEDEDE;
+    --white: #FFFFFF;
+    --orange: #D96000;
+    --blue: #1A5276;
+    --bg: #F0F0F0;
+
+    /* A3 paysage = 420 × 297 mm */
+    --page-w: 420mm;
+    --page-h: 297mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: var(--page-w);
+    height: var(--page-h);
+    font-family: 'Barlow', sans-serif;
+    font-size: 10.5pt;
+    background: var(--bg);
+    color: var(--black);
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    background: white;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--red);
+    display: flex;
+    align-items: stretch;
+    height: 54px;
+  }
+  .header-logo {
+    background: var(--dark-red);
+    padding: 8px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 180px;
+  }
+  .header-logo img {
+    height: 28px;
+    width: auto;
+  }
+  .logo-sub {
+    font-size: 7pt;
+    letter-spacing: 0.8px;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .header-title {
+    padding: 0 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .header-title h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: white;
+    line-height: 1;
+  }
+  .header-title p {
+    font-size: 8pt;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .header-ref {
+    background: rgba(0,0,0,0.22);
+    padding: 0 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    min-width: 100px;
+  }
+  .header-ref .ref-label { font-size: 7pt; color: rgba(255,255,255,0.55); }
+  .header-ref strong {
+    font-size: 11pt;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* ── LEGEND BAR ── */
+  .legend-bar {
+    background: var(--gray-dark);
+    color: white;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 530px;
+    gap: 0;
+    padding: 5px 20px;
+    font-size: 10pt;
+    height: 30px;
+    align-items: center;
+  }
+  .legend-bar span {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .legend-bar .acquitement {
+    padding-left: 20px;
+  }
+  /* ── MAIN CONTENT ── */
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .row {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 530px;
+    gap: 0;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gray-light);
+    min-height: 0;
+  }
+  .row:last-child { border-bottom: none; }
+
+  .row-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    min-height: 0;
+  }
+
+  .row-image:first-child {
+    border-right: 2px solid var(--gray-light);
+  }
+
+  .row-image:last-child {
+    padding: 0 6px;
+  }
+
+  .row-image.third .image-box {
+    width: 530px;
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .row-image.third .image-box img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+  }
+
+  .row-image.third .image-box img:only-child {
+    width: 250px;
+  }
+
+  .image-box {
+    width: 220px;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .row-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 12px;
+    gap: 6px;
+    border-right: 2px solid var(--gray-light);
+    min-height: 0;
+  }
+
+  .row-text h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--black);
+    margin: 0;
+  }
+
+  .row-text p {
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: var(--gray-dark);
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+    font-size: 7pt;
+    letter-spacing: 0.4px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+  footer strong { color: rgba(255,255,255,0.65); }
+
+  /* ── PRINT ── */
+  @page {
+    size: A3 landscape;
+    margin: 0;
+  }
+  @media print {
+    html, body { width: 420mm; height: 297mm; }
+    .page { width: 420mm; height: 297mm; }
+    header, .legend-bar, footer { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo">
+      <img src="./IMG/logo_rts.png" alt="RTS Chapuis"style="width: 150px; height:auto;">
+      <div class="logo-sub">Leader Français du brancard d'ambulance</div>
+    </div>
+    <div class="header-title">
+      <h1>Guide de Dépannage - Chargement &amp; Déchargement</h1>
+      <p>Cabbri V2 + Axionis (Ancrage S310M)</p>
+    </div>
+    <div class="header-ref">
+      <span class="ref-label">Réf. notice</span>
+      <strong>N26.003</strong>
+    </div>
+  </header>
+
+  <!-- LEGEND BAR -->
+  <div class="legend-bar">
+    <span>Erreur</span>
+    <span>Description</span>
+    <span class="acquitement">Acquittement</span>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- Row 1 -->
+    <div class="row">
+      <div class="row-image">
+        <div class="image-box">
+          <img src="/IMG/arret_mouv.png" alt="Image 1">
+          <img src="/IMG/er_batt.png" alt="Image 1">
+        </div>
+      </div>
+      <div class="row-text">
+        <h3>Arrêt de mouvement / Erreur de batterie accessoire</h3>
+        <p>Le mouvement a été interrompu suite à un défaut / une erreur de batterie accessoire faible.</p>
+        <p>Acquiter l'erreur en maintenant enfoncé les boutons <strong>Chargement</strong> <img src="/IMG/right.png" height="15px"> & <strong>Déchargement</strong> <img src="/IMG/left.png" height="15px"> pendant au moins <strong>3 secondes</strong>.</p>
+        <p>Si l'erreur persiste, appuyer sur le bouton <strong>Reset</strong> <img src="/IMG/reset_ax.png" height="20px"> d'Axionis pendant au moins <strong>3 secondes</strong>.</p>
+        <p>Si l'erreur n'est toujours pas acquitée, <strong>redémarrer</strong> le système de la cellule.</p>
+        <p>Si le problème n'est pas résolu, contacter le service client RTS Chapuis 04.72.48.81.82</p>
+      </div>
+      <div class="row-image third">
+        <div class="image-box">
+          <img src="/IMG/acq.png" alt="Third Image 1">
+          <img src="/IMG/reset.png" alt="Third Image 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row">
+      <div class="row-image">
+        <div class="image-box">
+          <img src="/IMG/de_ancrage.png" alt="Image 2">
+        </div>
+      </div>
+      <div class="row-text">
+        <h3>Désarrimage incomplet</h3>
+        <p>La poignée de déverrouillage a été relâchée trop tôt.</p> 
+        <p>La maintenir jusqu'à <strong>l'arrêt complet</strong> du brancard (~10 cm).</p>
+      </div>
+      <div class="row-image third">
+        <div class="image-box">
+          <img src="/IMG/man_ax.png" alt="Third Image 2">
+          <img src="/IMG/dec_sort.png" alt="Third Image 2">
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="row">
+      <div class="row-image">
+        <div class="image-box">
+          <img src="/IMG/rel_brancard.png" alt="Image 3">
+        </div>
+      </div>
+      <div class="row-text">
+        <h3>Hauteur de brancard lors du chargement</h3>
+        <p>Le brancard n'est pas complètement relevé.</p>
+        <p>utiliser les boutons <strong>Monter</strong> <img src="/IMG/up.png" height="15px"> pour relever les bequilles en position haute.</p>
+      </div>
+      <div class="row-image third">
+        <div class="image-box">
+          <img src="/IMG/uparrR.png" alt="Third Image 3">
+          <img src="/IMG/uparrV.png" alt="Third Image 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="row">
+      <div class="row-image">
+        <div class="image-box">
+          <img src="/IMG/er_cod.png" alt="Image 3">
+        </div>
+      </div>
+      <div class="row-text">
+        <h3>Erreur d'un capteur des béquilles motorisées</h3>
+        <p>L'erreur est due à un problème avec un capteur de position des béquilles motorisées.</p>
+        <p>Pour acquitter l'erreur, appuyer simultanement sur les boutons <strong>Monter</strong> <img src="/IMG/up.png" height="15px"> & <strong>Descendre</strong> <img src="/IMG/down.png" height="15px"> de la poignée verte.</p>
+        <p>Si l'erreur ne s'acquitte pas, utiliser les manettes jaune pour relever les manuellement les béquilles en position haute.</p>
+      </div>
+      <div class="row-image third">
+        <div class="image-box">
+          <img src="/IMG/Acq2.png" alt="Third Image 4">
+          <img src="/IMG/manjaunav.png" alt="Third Image 4">
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="row">
+      <div class="row-image">
+        <div class="image-box">
+          <img src="/IMG/er_pwr.png" alt="Image 4">
+          <img src="/IMG/er_fonc_beq.png" alt="Image 4">
+        </div>
+      </div>
+      <div class="row-text">
+        <h3>Erreur de la source d'énergie / de fonctionnement des béquilles motorisées</h3>
+        <p>Contacter le service client RTS Chapuis 04.72.48.81.82</p>
+      </div>
+      <div class="row-image third">
+        <div class="image-box">
+          <img src="/IMG/logo_detour.png" height="100px" alt="Third Image 5">
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span><strong>Cabbri V2 + Axionis</strong> · Guide de dépannage · RTS Chapuis</span>
+    <span>Réf. <strong>N26.003</strong></span>
+  </footer>
+
+</div><!-- /page -->
+</body>
+</html>
